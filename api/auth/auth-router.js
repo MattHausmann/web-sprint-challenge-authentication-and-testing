@@ -15,27 +15,26 @@ router.post('/register', checkUsernameExists, checkPasswordExists, checkUsername
 });
 
 router.post('/login', (req, res) => {
-
   let {username, password} = req.body;
   if(!username || !password) {
     res.status(400).send("username and password required")
-  }
-
-  Users.findByUsername(username).then((user) =>{
-    if(user) {
-      let success = bcrypt.compareSync(password, user.password);
-      if(success) {
-        let token = generateToken(user);
-        req.session.token = token;
-        res.status(200).json({
-          message:`welcome, ${username}`,
-          token:token
-        })
-      } else {
-        res.status(400).send("credentials invalid");
+  } else {    
+    Users.findByUsername(username).then((user) =>{
+      if(user) {
+        let success = bcrypt.compareSync(password, user.password);
+        if(success) {
+          let token = generateToken(user);
+          req.session.token = token;
+          res.status(200).json({
+            message:`welcome, ${username}`,
+            token:token
+          })
+        } else {
+          res.status(400).send("credentials invalid");
+        }
       }
-    }
-  })
+    })
+  }
 });
 
 router.get('/logout', (req, res) => {
