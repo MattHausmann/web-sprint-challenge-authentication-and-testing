@@ -34,9 +34,9 @@ router.post('/login', (req, res) => {
           res.status(400).send("invalid credentials");
         }
       } else {
-        res.status(400).send("credentials invalid");
+        res.status(400).send("invalid credentials");
       }
-    }).catch((err) => res.status(400).send("credentials invalid"));
+    }).catch((err) => res.status(400).send("invalid credentials"));
   }
 });
 
