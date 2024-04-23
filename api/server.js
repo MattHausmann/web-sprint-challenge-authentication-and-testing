@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const session = require('express-session');
 
 const restrict = require('./middleware/restricted.js');
+const attachTokenToHeaders = require('./middleware/attachTokenToHeaders');
 
 const secrets = require('../config/secrets');
 
@@ -30,7 +31,8 @@ server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
+
 server.use('/api/auth', authRouter);
-server.use('/api/jokes', restrict, jokesRouter); // only logged-in users should have access!
+server.use('/api/jokes', attachTokenToHeaders, restrict, jokesRouter); // only logged-in users should have access!
 server.use('/api/users', usersRouter);
 module.exports = server;
