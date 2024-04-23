@@ -1,5 +1,4 @@
 module.exports = (req, res, next) => {
-  next();
   /*
     IMPLEMENT
 
@@ -11,4 +10,17 @@ module.exports = (req, res, next) => {
     3- On invalid or expired token in the Authorization header,
       the response body should include a string exactly as follows: "token invalid".
   */
+ console.log("in restrict!");
+ console.log(req.headers);
+ if(req.headers.cookie) {
+  console.log(req.headers.cookie);
+  next();
+ } else {
+  console.log("token required");
+  res
+    .status(400)
+    .send("token required");
+ }
+
+
 };

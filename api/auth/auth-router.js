@@ -26,16 +26,13 @@ router.post('/login', (req, res) => {
     if(user) {
       let success = bcrypt.compareSync(password, user.password);
       if(success) {
-        req.session.user = user;
-        console.log(password);
-        console.log(user.password);
-        console.log(success);
         let token = generateToken(user);
+        req.session.token = token;
+        console.log(req.session);
         res.status(200).json({
           message:`welcome, ${username}`,
           token:token
         })
-        res.session.token = token;
       } else {
         res.status(400).send("credentials invalid");
       }
@@ -44,6 +41,7 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
+  console.log(req.session);
   if (req.session) {
     req.session.destroy(err => {
       if (err) {
