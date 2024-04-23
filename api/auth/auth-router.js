@@ -20,6 +20,7 @@ router.post('/login', (req, res) => {
     res.status(400).send("username and password required")
   } else {    
     Users.findByUsername(username).then((user) =>{
+      console.log(user);
       if(user) {
         let success = bcrypt.compareSync(password, user.password);
         if(success) {
@@ -30,10 +31,12 @@ router.post('/login', (req, res) => {
             token:token
           })
         } else {
-          res.status(400).send("credentials invalid");
+          res.status(400).send("invalid credentials");
         }
+      } else {
+        res.status(400).send("credentials invalid");
       }
-    })
+    }).catch((err) => res.status(400).send("credentials invalid"));
   }
 });
 
