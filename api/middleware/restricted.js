@@ -13,10 +13,13 @@ module.exports = (req, res, next) => {
     3- On invalid or expired token in the Authorization header,
       the response body should include a string exactly as follows: "token invalid".
   */
- if(req.session.token) {
+ 
+ req.headers.authorization = req.session.token;
+ if(req.headers.authorization) {
 
   try {
-    let jwtValid = jwt.verify(req.session.token, secrets.jwtSecret);
+    req.headers.authorization = req.session.token;
+    let jwtValid = jwt.verify(req.headers.authorization, secrets.jwtSecret);
     if(jwtValid) {
       next();
     }
