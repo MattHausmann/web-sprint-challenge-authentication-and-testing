@@ -21,10 +21,10 @@ module.exports = (req, res, next) => {
       next();
     }
   } catch(err) {
-    res.status(400).send("invalid or expired token");
+    res.status(400).send({message:"invalid or expired token"});
   }
   
  } else {
-  res.status(400).send("token required");
+  res.status(400).send({message:"token required"});
  }
 };

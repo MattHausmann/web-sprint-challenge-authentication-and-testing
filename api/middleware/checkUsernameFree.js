@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
     Users.findByUsername(username).then((user) => {
         console.log(user);
         if(user) {
-            res.status(400).send("username taken");
+            res.status(400).json({message:"username taken"});
         } else {
             next();
         }
