@@ -17,7 +17,7 @@ router.post('/register', checkUsernameExists, checkPasswordExists, checkUsername
 router.post('/login', (req, res) => {
   let {username, password} = req.body;
   if(!username || !password) {
-    res.status(400).send("username and password required")
+    res.status(400).json({message:"username and password required"})
   } else {    
     Users.findByUsername(username).then((user) =>{
       console.log(user);
@@ -31,12 +31,13 @@ router.post('/login', (req, res) => {
             token:token
           })
         } else {
-          res.status(400).send("invalid credentials");
+          res.status(400).json({message:"invalid credentials"});
         }
       } else {
-        res.status(400).send("invalid credentials");
+        res.status(400).json({message:"invalid credentials"});
       }
-    }).catch((err) => res.status(400).send("invalid credentials"));
+    }).catch((err) => res.status(400).json({message:"invalid credentials"});
+  );
   }
 });
 
