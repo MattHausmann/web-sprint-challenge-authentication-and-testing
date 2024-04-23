@@ -36,7 +36,7 @@ router.post('/login', (req, res) => {
       } else {
         res.status(400).json({message:"invalid credentials"});
       }
-    }).catch((err) => res.status(400).json({message:"invalid credentials"});
+    }).catch((err) => res.status(400).json({message:"invalid credentials"}));
   }
 });
 
