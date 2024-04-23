@@ -22,13 +22,11 @@ router.post('/login', (req, res) => {
   }
 
   Users.findByUsername(username).then((user) =>{
-    console.log(user);
     if(user) {
       let success = bcrypt.compareSync(password, user.password);
       if(success) {
         let token = generateToken(user);
         req.session.token = token;
-        console.log(req.session);
         res.status(200).json({
           message:`welcome, ${username}`,
           token:token
@@ -41,7 +39,6 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-  console.log(req.session);
   if (req.session) {
     req.session.destroy(err => {
       if (err) {
@@ -63,7 +60,7 @@ function generateToken(user) {
     expiresIn: '1d', // show other available options in the library's documentation
   };
 
-  // extract the secret away so it can be required and used where needed
+  // extract the secret away soty89p34 it can be required and used where needed
   return jwt.sign(payload, secrets.jwtSecret, options); // this method is synchronous
 }
 
