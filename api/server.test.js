@@ -1,17 +1,20 @@
 const request = require('supertest'); // calling it "request" is a common practice
 const server = require('./server.js'); // this is our first red, file doesn't exist yet
 const db = require('../data/dbConfig.js');
-const Users = require('./users/users-model.js');
-
 const bcrypt = require('bcryptjs');
 
 const userA = {"username":"a","password":bcrypt.hashSync("a", 8)};
 
 beforeEach(async () => {
+  await db.migrate.rollback();
+  await db.migrate.latest();
   await db('users').truncate();
-  await Users.add(userA);
+  await db('users').insert(userA);
 })
 
+afterAll(async () => {
+  await db('users').delete();
+})
 
 describe('/api/auth/register', () => {
 
